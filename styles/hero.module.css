@@ -1,0 +1,24 @@
+.text {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 300%;
+  font-size: 5vw;
+  font-weight: 700;
+  text-transform: uppercase;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animated_text 7s ease-in-out infinite;
+  -moz-animation: animated_text 7s ease-in-out infinite;
+  -webkit-animation: animated_text 7s ease-in-out infinite;
+}
+
+@keyframes animated_text {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
