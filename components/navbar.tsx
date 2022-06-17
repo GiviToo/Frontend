@@ -12,9 +12,9 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import {
   HamburgerIcon,
   CloseIcon,
@@ -26,9 +26,10 @@ import logo from "../public/assets/logo.png";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const router = useRouter();
 
   return (
-    <Box position="sticky" top="0">
+    <Box position="sticky" top="0" className="z-4">
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -61,7 +62,13 @@ export default function Navbar() {
             color={useColorModeValue('gray.800', 'white')}>
             Logo
           </Text> */}
-          <Image src={logo} alt="Logo" width={162} height={24} />
+          <Image
+            src={logo}
+            alt="Logo"
+            width={162}
+            height={24}
+            onClick={() => router.push("/")}
+          />
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -72,14 +79,13 @@ export default function Navbar() {
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
           direction={"row"}
-          spacing={6}
+          spacing={3}
         >
           <Button
-            as={"a"}
             fontSize={"sm"}
             fontWeight={400}
-            variant={"link"}
-            href={"#"}
+            variant={"ghost"}
+            onClick={() => router.push("/login")}
           >
             Sign In
           </Button>
@@ -89,12 +95,12 @@ export default function Navbar() {
             fontWeight={600}
             color={"white"}
             bg={"green.400"}
-            href={"#"}
             _hover={{
               bg: "green.300",
             }}
+            onClick={() => router.push("/register")}
           >
-            Sign Up
+            Register
           </Button>
         </Stack>
       </Flex>
