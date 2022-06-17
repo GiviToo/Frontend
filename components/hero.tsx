@@ -22,12 +22,13 @@ export default function Hero() {
         />
       </Head>
 
-      <Container maxW={"7xl"}>
+      <Container maxW={"7xl"} h={"100vh"}>
         <Stack
           as={Box}
           textAlign={"center"}
           spacing={{ base: 8, md: 14 }}
           py={{ base: 20, md: 36 }}
+          className="m-auto"
         >
           <Heading
             fontWeight={700}
@@ -36,10 +37,7 @@ export default function Hero() {
             Make money from <br />
             <span className={styles.text}>PROJECTS</span>
           </Heading>
-          <Text
-            color={"gray.500"}
-            fontSize={{ base: "2xl"}}
-          >
+          <Text color={"gray.500"} fontSize={{ base: "2xl" }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean non
             leo ultrices, molestie ipsum eget, lobortis nibh. Donec quis erat
             non mi malesuada accumsan imperdiet a eros. Class aptent taciti
