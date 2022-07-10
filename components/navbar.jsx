@@ -13,6 +13,12 @@ import {
   PopoverContent,
   useColorModeValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {
@@ -23,10 +29,17 @@ import {
 } from "@chakra-ui/icons";
 import Image from "next/image";
 import logo from "../public/assets/logo.png";
+import authService from "../services/auth.service";
+import { useState } from "react";
+
+const Links = ["/profile", "/logout"];
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const [currentUser, setCurrentUser ] = useState();
   const router = useRouter();
+
+  const user = authService.getCurrentUser();
 
   return (
     <Box position="sticky" top="0" className="z-4">
@@ -81,27 +94,53 @@ export default function Navbar() {
           direction={"row"}
           spacing={3}
         >
-          <Button
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"ghost"}
-            onClick={() => router.push("/login")}
-          >
-            Sign In
-          </Button>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"green.400"}
-            _hover={{
-              bg: "green.300",
-            }}
-            onClick={() => router.push("/register")}
-          >
-            Register
-          </Button>
+          {user ? (
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
+                minW={0}
+              >
+                <Avatar
+                  size={"sm"}
+                  src={
+                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                  }
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => router.push("/")}>My Profile</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => router.push("/logout")}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <>
+              <Button
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"ghost"}
+                onClick={() => router.push("/login")}
+              >
+                Sign In
+              </Button>
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"green.400"}
+                _hover={{
+                  bg: "green.300",
+                }}
+                onClick={() => router.push("/register")}
+              >
+                Register
+              </Button>
+            </>
+          )}
         </Stack>
       </Flex>
 
@@ -116,6 +155,8 @@ const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
+
+  const router = useRouter();
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -133,6 +174,7 @@ const DesktopNav = () => {
                   textDecoration: "none",
                   color: linkHoverColor,
                 }}
+                onClick={() => router.push("/browse")}
               >
                 {navItem.label}
               </Link>
@@ -161,7 +203,9 @@ const DesktopNav = () => {
   );
 };
 
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+const DesktopSubNav = ({ label, href, subLabel }) => {
+  const router = useRouter();
+
   return (
     <Link
       href={href}
@@ -177,6 +221,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
             transition={"all .3s ease"}
             _groupHover={{ color: "green.400" }}
             fontWeight={500}
+            onClick={() => router.push("/browse")}
           >
             {label}
           </Text>
@@ -212,8 +257,9 @@ const MobileNav = () => {
   );
 };
 
-const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, children, href }) => {
   const { isOpen, onToggle } = useDisclosure();
+  const router = useRouter();
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -230,6 +276,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         <Text
           fontWeight={600}
           color={useColorModeValue("gray.600", "gray.200")}
+          onClick={() => router.push("/browse")}
         >
           {label}
         </Text>
@@ -265,27 +312,27 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
   );
 };
 
-interface NavItem {
-  label: string;
-  subLabel?: string;
-  children?: Array<NavItem>;
-  href?: string;
-}
+// interface NavItem {
+//   label: string;
+//   subLabel?: string;
+//   children?: Array<NavItem>;
+//   href?: string;
+// }
 
-const NAV_ITEMS: Array<NavItem> = [
+const NAV_ITEMS = [
   {
     label: "Find Projects",
-    children: [
-      {
-        label: "Job Board",
-        subLabel: "Find your dream design job",
-        href: "#",
-      },
-      {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
-        href: "#",
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Job Board",
+    //     subLabel: "Find your dream design job",
+    //     href: "#",
+    //   },
+    //   {
+    //     label: "Freelance Projects",
+    //     subLabel: "An exclusive list for contract work",
+    //     href: "#",
+    //   },
+    // ],
   },
 ];

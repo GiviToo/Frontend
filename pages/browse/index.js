@@ -1,6 +1,7 @@
 import Head from "next/head";
-import Navbar from "../../components/navbar.tsx";
+import Navbar from "../../components/navbar.jsx";
 import Footer from "../../components/footer.tsx";
+import BrowseCard from "../../components/browsecard.jsx";
 
 export default function Home() {
   return (
@@ -11,10 +12,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="min-h-screen">
         <Navbar />
-        <div className="flex flex-row space-x-4">
-
+        <div className="w-screen flex justify-center">
+          <div className="max-w-7xl flex flex-wrap">
+            <BrowseCard />
+          </div>
         </div>
       </main>
 

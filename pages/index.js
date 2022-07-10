@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Navbar from "../components/navbar.tsx";
+import Navbar from "../components/navbar.jsx";
 import Hero from "../components/hero.tsx";
 import Footer from "../components/footer.tsx";
 

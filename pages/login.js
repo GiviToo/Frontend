@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Navbar from '../components/navbar.tsx'
-import Login from '../components/login.tsx'
+import Navbar from '../components/navbar.jsx'
+import Login from '../components/login.jsx'
 
 export default function Home() {
   return (
