@@ -11,8 +11,10 @@ import {
   createIcon,
 } from "@chakra-ui/react";
 import styles from "../styles/hero.module.css";
+import { useRouter } from "next/router";
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -59,6 +61,7 @@ export default function Hero() {
               _hover={{
                 bg: "green.500",
               }}
+              onClick={() => router.push("/browse")}
             >
               Browse Projects
             </Button>

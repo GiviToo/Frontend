@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Navbar from '../components/navbar.tsx'
+import Navbar from '../components/navbar.jsx'
 import Register from '../components/register.tsx'
 
 export default function Home() {
