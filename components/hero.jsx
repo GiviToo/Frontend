@@ -1,4 +1,3 @@
-import Head from "next/head";
 import {
   Box,
   Heading,
@@ -12,17 +11,12 @@ import {
 } from "@chakra-ui/react";
 import styles from "../styles/hero.module.css";
 import { useRouter } from "next/router";
+import React from "react";
 
 export default function Hero() {
   const router = useRouter();
   return (
     <>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
 
       <Container maxW={"7xl"} h={"100vh"}>
         <Stack

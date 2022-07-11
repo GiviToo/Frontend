@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Navbar from "../../components/navbar.jsx";
-import Footer from "../../components/footer.tsx";
+import Footer from "../../components/footer.jsx";
 import BrowseCard from "../../components/browsecard.jsx";
 
 export default function Home() {

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Navbar from '../components/navbar.jsx'
-import Register from '../components/register.tsx'
+import Register from '../components/register.jsx'
 
 export default function Home() {
   return (
