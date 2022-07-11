@@ -30,13 +30,9 @@ import {
 import Image from "next/image";
 import logo from "../public/assets/logo.png";
 import authService from "../services/auth.service";
-import { useState } from "react";
-
-const Links = ["/profile", "/logout"];
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
-  const [currentUser, setCurrentUser ] = useState();
   const router = useRouter();
 
   const user = authService.getCurrentUser();
@@ -113,7 +109,9 @@ export default function Navbar() {
               <MenuList>
                 <MenuItem onClick={() => router.push("/")}>My Profile</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={() => router.push("/logout")}>Logout</MenuItem>
+                <MenuItem onClick={() => router.push("/logout")}>
+                  Logout
+                </MenuItem>
               </MenuList>
             </Menu>
           ) : (

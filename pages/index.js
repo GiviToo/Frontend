@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Navbar from "../components/navbar.jsx";
-import Hero from "../components/hero.tsx";
-import Footer from "../components/footer.tsx";
+import Hero from "../components/hero.jsx";
+import Footer from "../components/footer.jsx";
 
 export default function Home() {
   return (

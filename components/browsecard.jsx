@@ -22,7 +22,7 @@ function BrowseCard() {
   return (
     <>
       {data?.map((item) => (
-        <Card props={item} />
+        <Card props={item} key={item.uuid} />
       ))}
     </>
   );
