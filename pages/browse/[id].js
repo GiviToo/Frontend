@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer.jsx";
-import ProductDetail from "../../components/productDetail";
+import ProductDetail from "../../components/productDetail.jsx";
+
 const DetailCard = () => {
   const router = useRouter();
   const { id } = router.query;
