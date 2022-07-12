@@ -30,30 +30,29 @@ export default function ProductDetail(props) {
   const router = useRouter();
   const checkUser = authService.getCurrentUser();
 
-  if (checkUser) {
-    const fetchData = (data, token) => {
-      axios
-        .get(`https://api.givitoo.isnan.me/project/${data.props}`, {
-          headers: { Authorization: `Bearer ${token.access}` },
-        })
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch(() => {
-          if (!(typeof window === undefined)) {
-            router.push("/login");
-          }
-        });
-    };
-
-    useEffect(() => {
+  useEffect(() => {
+    if (checkUser) {
+      const fetchData = (data, token) => {
+        axios
+          .get(`https://api.givitoo.isnan.me/project/${data.props}`, {
+            headers: { Authorization: `Bearer ${token.access}` },
+          })
+          .then((response) => {
+            setData(response.data);
+          })
+          .catch(() => {
+            if (!(typeof window === undefined)) {
+              router.push("/login");
+            }
+          });
+      };
       fetchData(props, checkUser);
-    }, [props]);
-  } else {
-    if (!(typeof window === undefined)) {
-      router.push("/login");
+    } else {
+      if (!(typeof window === undefined)) {
+        router.push("/login");
+      }
     }
-  }
+  }, [props]);
   return (
     <Container maxW={"7xl"}>
       <SimpleGrid
@@ -115,9 +114,7 @@ export default function ProductDetail(props) {
                 </List>
                 <List spacing={2}>
                   <ListItem>
-                    {data?.owner.name
-                      ? data?.owner.name
-                      : "unknown"}
+                    {data?.owner.name ? data?.owner.name : "unknown"}
                   </ListItem>
                   <ListItem>
                     {data?.expected_duration
@@ -141,9 +138,7 @@ export default function ProductDetail(props) {
               <List spacing={2}>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                  {data?.registrant
-                      ? data?.registrant
-                      : "no one applied yet"}
+                    {data?.registrant ? data?.registrant : "no one applied yet"}
                   </Text>
                 </ListItem>
               </List>
