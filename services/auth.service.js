@@ -1,4 +1,5 @@
 import axios from "axios";
+import TokenService from "./token.service";
 const API_URL = "https://api.givitoo.isnan.me/";
 class AuthService {
   login(email, password) {
@@ -9,8 +10,8 @@ class AuthService {
       })
       .then((response) => {
         console.log(response);
-        if (response.data) {
-          localStorage.setItem("user", JSON.stringify(response.data.access));
+        if (response.data.access) {
+          TokenService.setUser(response.data);
         }
         return response.data;
       });
@@ -30,7 +31,7 @@ class AuthService {
   }
   getCurrentUser() {
     if (typeof window !== "undefined") {
-      return JSON.parse(localStorage.getItem("user"));
+      return TokenService.getUser();
     }
   }
 }
