@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 function Card(props) {
-  console.log(props.props.status)
   let status;
   if (props.props.status === "UNASSIGNED") {
     status = (
