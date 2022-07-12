@@ -19,35 +19,41 @@ import {
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
 import { useState } from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import authService from "../services/auth.service";
+import axios from "axios";
+import authHeader from "../services/auth-header";
+import { useEffect } from "react";
 
-export default function ProductDetail() {
+export default function ProductDetail(props) {
   const [data, setData] = useState();
   const router = useRouter();
   const checkUser = authService.getCurrentUser();
 
   if (checkUser) {
-    const fetchData = (data) => {
+    const fetchData = (data, token) => {
       axios
-        .get("https://api.givitoo.isnan.me/project/" + data.props, {
-          headers: authHeader,
+        .get(`https://api.givitoo.isnan.me/project/${data.props}`, {
+          headers: { Authorization: `Bearer ${token.access}` },
         })
         .then((response) => {
           setData(response.data);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          if (!(typeof window === undefined)) {
+            router.push("/login");
+          }
         });
     };
 
-    fetchData(props);
+    useEffect(() => {
+      fetchData(props, checkUser);
+    }, [props]);
   } else {
     if (!(typeof window === undefined)) {
       router.push("/login");
     }
   }
-  console.log(data);
   return (
     <Container maxW={"7xl"}>
       <SimpleGrid
@@ -60,7 +66,7 @@ export default function ProductDetail() {
             rounded={"md"}
             alt={"product image"}
             src={
-              "https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080"
+              "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&w=1080"
             }
             fit={"cover"}
             align={"center"}
@@ -75,15 +81,8 @@ export default function ProductDetail() {
               fontWeight={600}
               fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
             >
-              Automatic Watch
+              {data?.title}
             </Heading>
-            <Text
-              color={useColorModeValue("gray.900", "gray.400")}
-              fontWeight={300}
-              fontSize={"2xl"}
-            >
-              $350.00 USD
-            </Text>
           </Box>
 
           <Stack
@@ -96,20 +95,7 @@ export default function ProductDetail() {
             }
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
-              <Text
-                color={useColorModeValue("gray.500", "gray.400")}
-                fontSize={"2xl"}
-                fontWeight={"300"}
-              >
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
-              </Text>
-              <Text fontSize={"lg"}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                maxime modi nam officiis porro, quae, quisquam quos
-                reprehenderit velit? Natus, totam.
-              </Text>
+              <Text fontSize={"lg"}>{data?.description}</Text>
             </VStack>
             <Box>
               <Text
@@ -119,19 +105,25 @@ export default function ProductDetail() {
                 textTransform={"uppercase"}
                 mb={"4"}
               >
-                Features
+                Detail
               </Text>
 
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{" "}
-                  <ListItem>Tachymeter</ListItem>
+                  <ListItem>Owner</ListItem>
+                  <ListItem>Expected Duration</ListItem>
                 </List>
                 <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
+                  <ListItem>
+                    {data?.owner.name
+                      ? data?.owner.name
+                      : "unknown"}
+                  </ListItem>
+                  <ListItem>
+                    {data?.expected_duration
+                      ? data?.expected_duration
+                      : "unknown"}
+                  </ListItem>
                 </List>
               </SimpleGrid>
             </Box>
@@ -143,52 +135,16 @@ export default function ProductDetail() {
                 textTransform={"uppercase"}
                 mb={"4"}
               >
-                Product Details
+                Registrant
               </Text>
 
               <List spacing={2}>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Between lugs:
-                  </Text>{" "}
-                  20 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Bracelet:
-                  </Text>{" "}
-                  leather strap
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Case:
-                  </Text>{" "}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Case diameter:
-                  </Text>{" "}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Dial color:
-                  </Text>{" "}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Crystal:
-                  </Text>{" "}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Water resistance:
-                  </Text>{" "}
-                  5 bar (50 metres / 167 feet){" "}
+                  {data?.registrant
+                      ? data?.registrant
+                      : "no one applied yet"}
+                  </Text>
                 </ListItem>
               </List>
             </Box>
@@ -208,13 +164,8 @@ export default function ProductDetail() {
               boxShadow: "lg",
             }}
           >
-            Add to cart
+            Apply
           </Button>
-
-          <Stack direction="row" alignItems="center" justifyContent={"center"}>
-            <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
-          </Stack>
         </Stack>
       </SimpleGrid>
     </Container>
