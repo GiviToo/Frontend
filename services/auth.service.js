@@ -19,14 +19,16 @@ class AuthService {
   logout() {
     if (typeof window !== "undefined") {
       localStorage.removeItem("user");
-      return true
+      return true;
     }
   }
-  register(name, phone, email) {
+  register(firstName, lastName, email, password, passwordConfirmation) {
+    const fullName = firstName + " " + lastName;
     return axios.post(API_URL + "user/register/", {
-      name,
-      phone,
-      email,
+      name: fullName,
+      email: email,
+      password: password,
+      password_confirmation: passwordConfirmation,
     });
   }
   getCurrentUser() {
